@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: pipes
+      POSTGRES_PASSWORD: postgres
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+      RABBITMQ_MANAGEMENT_PORT: 15672
+      RABBITMQ_MANAGEMENT_USER: admin
+      RABBITMQ_MANAGEMENT_PASS: admin
+    networks:
+      - default
+
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    driver: bridge
