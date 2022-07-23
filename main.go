@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/aacebo/pipes/controllers/workflows"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
@@ -24,6 +25,8 @@ func main() {
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		render.JSON(w, r, H{"hello": "world"})
 	})
+
+	r.Mount("/", workflows.NewRouter())
 
 	http.ListenAndServe(":3000", r)
 }

@@ -17,11 +17,11 @@ compile:
 	GOOS=linux GOARCH=386 go build -o bin/main-linux-386 main.go
 	GOOS=windows GOARCH=386 go build -o bin/main-windows-386 main.go
 
-migrate-up:
+migrate_up:
 	migrate -source file://database/migrations -database $(POSTGRES_CONNECTION_STRING) up
 
-migrate-down:
+migrate_down:
 	migrate -source file://database/migrations -database $(POSTGRES_CONNECTION_STRING) down
 
-migrate-new:
+migrate_new:
 	migrate create -ext sql -dir database/migrations $(name)
