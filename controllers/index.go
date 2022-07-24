@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/aacebo/pipes/common"
-	"github.com/aacebo/pipes/controllers/workflows"
+	"github.com/aacebo/pipes/controllers/workflow"
 	"github.com/aacebo/pipes/utils"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
@@ -21,7 +21,7 @@ func NewRouter() *chi.Mux {
 		})
 	})
 
-	r.Mount("/", workflows.NewRouter())
+	r.Mount("/", workflow.NewRouter())
 
 	return r
 }

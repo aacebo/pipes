@@ -1,4 +1,4 @@
-package workflows
+package workflow
 
 import (
 	"github.com/go-chi/chi/v5"
