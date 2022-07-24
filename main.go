@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/aacebo/pipes/controllers"
+	"github.com/aacebo/pipes/database"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
@@ -12,7 +13,10 @@ import (
 
 func main() {
 	godotenv.Load()
+	db := database.NewClient()
 	r := chi.NewRouter()
+
+	defer db.Close()
 
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)

@@ -1,8 +1,6 @@
 include .env
 export
 
-POSTGRES_CONNECTION_STRING := postgres://$(PG_USER):$(PG_PASSWORD)@$(PG_HOST):5432/$(PG_DATABASE)?sslmode=disable
-
 clean:
 	rm -rf ./bin
 

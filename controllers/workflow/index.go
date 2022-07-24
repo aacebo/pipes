@@ -8,6 +8,7 @@ func NewRouter() *chi.Mux {
 	r := chi.NewRouter()
 
 	r.Get("/workflows", Find())
+	r.Post("/workflows", Create())
 
 	return r
 }
