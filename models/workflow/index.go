@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/aacebo/pipes/database"
+	_page "github.com/aacebo/pipes/page"
 )
 
 var db = database.NewClient()
@@ -29,13 +30,17 @@ func NewWorkflow(name string) *Workflow {
 	return &v
 }
 
-func Find() []*Workflow {
+func Find(page *_page.Page) []*Workflow {
 	rows, err := db.Query(
 		`
 			SELECT *
 			FROM workflows
 			WHERE deleted_at IS NULL
+			OFFSET $1
+			LIMIT $2
 		`,
+		page.GetOffset(),
+		page.Size,
 	)
 
 	if err != nil {
