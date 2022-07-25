@@ -7,9 +7,9 @@ import (
 	"github.com/go-chi/render"
 )
 
-func Find() http.HandlerFunc {
+func FindByID() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		workflows := model.Find()
-		render.JSON(w, r, workflows)
+		v := r.Context().Value("workflow").(*model.Workflow)
+		render.JSON(w, r, v)
 	}
 }

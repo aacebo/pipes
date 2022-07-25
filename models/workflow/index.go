@@ -1,6 +1,7 @@
 package workflow
 
 import (
+	"database/sql"
 	"log"
 	"time"
 
@@ -56,6 +57,28 @@ func Find() []*Workflow {
 	}
 
 	return arr
+}
+
+func FindByID(id int) *Workflow {
+	v := Workflow{}
+	err := db.QueryRow(
+		`
+			SELECT *
+			FROM workflows
+			WHERE id = $1
+		`,
+		id,
+	).Scan(&v.ID, &v.Name, &v.CreatedAt, &v.UpdatedAt, &v.DeletedAt)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil
+		}
+
+		log.Fatal(err)
+	}
+
+	return &v
 }
 
 func (self *Workflow) Save() {

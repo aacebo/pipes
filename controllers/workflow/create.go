@@ -3,13 +3,13 @@ package workflow
 import (
 	"net/http"
 
-	"github.com/aacebo/pipes/models/workflow"
+	model "github.com/aacebo/pipes/models/workflow"
 	"github.com/go-chi/render"
 )
 
 func Create() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		body, err := workflow.NewCreateWorkflow(r)
+		body, err := model.NewCreateWorkflow(r)
 
 		if err != nil {
 			render.Status(r, 400)
@@ -17,8 +17,9 @@ func Create() http.HandlerFunc {
 			return
 		}
 
-		entity := workflow.NewWorkflow(*body.Name)
+		entity := model.NewWorkflow(*body.Name)
 		entity.Save()
+		render.Status(r, 201)
 		render.JSON(w, r, entity)
 	}
 }

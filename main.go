@@ -1,10 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/aacebo/pipes/controllers"
 	"github.com/aacebo/pipes/database"
+	"github.com/aacebo/pipes/logger"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
@@ -13,9 +16,10 @@ import (
 
 func main() {
 	godotenv.Load()
-	db := database.NewClient()
+	log := logger.New("main")
+	port := os.Getenv("PORT")
 	r := chi.NewRouter()
-
+	db := database.NewClient()
 	defer db.Close()
 
 	r.Use(middleware.RequestID)
@@ -26,5 +30,6 @@ func main() {
 
 	r.Mount("/", controllers.NewRouter())
 
-	http.ListenAndServe(":3000", r)
+	log.Infof("listening on port %s...", port)
+	http.ListenAndServe(fmt.Sprintf(":%s", port), r)
 }

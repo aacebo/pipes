@@ -21,6 +21,10 @@ func NewClient() *sql.DB {
 		log.Fatal(err)
 	}
 
+	if err := db.Ping(); err != nil {
+		log.Fatal(err)
+	}
+
 	client = db
 	return db
 }
