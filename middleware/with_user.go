@@ -5,18 +5,18 @@ import (
 	"net/http"
 	"strconv"
 
-	model "github.com/aacebo/pipes/models/workflow"
+	model "github.com/aacebo/pipes/models/user"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 )
 
-func WithWorkflow(next http.Handler) http.Handler {
+func WithUser(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		id, err := strconv.Atoi(chi.URLParam(r, "workflow_id"))
+		id, err := strconv.Atoi(chi.URLParam(r, "user_id"))
 
 		if err != nil {
 			render.Status(r, 400)
-			render.PlainText(w, r, "workflow_id must be an integer")
+			render.PlainText(w, r, "user_id must be an integer")
 			return
 		}
 
@@ -24,11 +24,11 @@ func WithWorkflow(next http.Handler) http.Handler {
 
 		if v == nil {
 			render.Status(r, 404)
-			render.PlainText(w, r, "workflow not found")
+			render.PlainText(w, r, "user not found")
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), "workflow", v)
+		ctx := context.WithValue(r.Context(), "user", v)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

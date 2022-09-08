@@ -1,4 +1,4 @@
-package workflow
+package user
 
 import (
 	"errors"
@@ -7,12 +7,12 @@ import (
 	"github.com/go-chi/render"
 )
 
-type CreateWorkflow struct {
+type CreateUser struct {
 	Name *string `json:"name"`
 }
 
-func NewCreateWorkflow(r *http.Request) (*CreateWorkflow, error) {
-	v := &CreateWorkflow{}
+func NewCreateUser(r *http.Request) (*CreateUser, error) {
+	v := &CreateUser{}
 	err := render.DecodeJSON(r.Body, &v)
 
 	if err != nil {

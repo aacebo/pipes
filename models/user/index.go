@@ -1,4 +1,4 @@
-package workflow
+package user
 
 import (
 	"database/sql"
@@ -11,7 +11,7 @@ import (
 
 var db = database.NewClient()
 
-type Workflow struct {
+type User struct {
 	ID        *int       `json:"id"`
 	Name      *string    `json:"name"`
 	CreatedAt *time.Time `json:"created_at"`
@@ -19,9 +19,9 @@ type Workflow struct {
 	DeletedAt *time.Time `json:"deleted_at"`
 }
 
-func NewWorkflow(name string) *Workflow {
+func NewUser(name string) *User {
 	now := time.Now()
-	v := Workflow{
+	v := User{
 		Name:      &name,
 		CreatedAt: &now,
 		UpdatedAt: &now,
@@ -30,11 +30,11 @@ func NewWorkflow(name string) *Workflow {
 	return &v
 }
 
-func Find(page *_page.Page) []*Workflow {
+func Find(page *_page.Page) []*User {
 	rows, err := db.Query(
 		`
 			SELECT *
-			FROM workflows
+			FROM users
 			WHERE deleted_at IS NULL
 			OFFSET $1
 			LIMIT $2
@@ -48,10 +48,10 @@ func Find(page *_page.Page) []*Workflow {
 	}
 
 	defer rows.Close()
-	arr := []*Workflow{}
+	arr := []*User{}
 
 	for rows.Next() {
-		v := Workflow{}
+		v := User{}
 		err := rows.Scan(&v.ID, &v.Name, &v.CreatedAt, &v.UpdatedAt, &v.DeletedAt)
 
 		if err != nil {
@@ -64,12 +64,12 @@ func Find(page *_page.Page) []*Workflow {
 	return arr
 }
 
-func FindByID(id int) *Workflow {
-	v := Workflow{}
+func FindByID(id int) *User {
+	v := User{}
 	err := db.QueryRow(
 		`
 			SELECT *
-			FROM workflows
+			FROM users
 			WHERE id = $1
 		`,
 		id,
@@ -86,16 +86,16 @@ func FindByID(id int) *Workflow {
 	return &v
 }
 
-func (self *Workflow) Save() {
+func (self *User) Save() {
 	if self.ID == nil {
 		self.Create()
 	}
 }
 
-func (self *Workflow) Create() {
+func (self *User) Create() {
 	err := db.QueryRow(
 		`
-			INSERT INTO workflows (name, created_at, updated_at)
+			INSERT INTO users (name, created_at, updated_at)
 			VALUES ($1, $2, $3)
 			RETURNING id
 		`,

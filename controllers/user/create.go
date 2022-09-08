@@ -1,15 +1,15 @@
-package workflow
+package user
 
 import (
 	"net/http"
 
-	model "github.com/aacebo/pipes/models/workflow"
+	model "github.com/aacebo/pipes/models/user"
 	"github.com/go-chi/render"
 )
 
 func Create() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		body, err := model.NewCreateWorkflow(r)
+		body, err := model.NewCreateUser(r)
 
 		if err != nil {
 			render.Status(r, 400)
@@ -17,7 +17,7 @@ func Create() http.HandlerFunc {
 			return
 		}
 
-		entity := model.NewWorkflow(*body.Name)
+		entity := model.NewUser(*body.Name)
 		entity.Save()
 		render.Status(r, 201)
 		render.JSON(w, r, entity)
